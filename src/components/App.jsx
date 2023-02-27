@@ -4,15 +4,34 @@ import { nanoid } from 'nanoid';
 import ContactList from './ContactList/ContactList';
 import PhoneBookFilter from './PhoneBookFilter/PhoneBookFilter';
 import PhoneBookForm from './PhoneBookForm/PhoneBookForm';
-import contacts from './contacts';
+// import contacts from './contacts';
 
 import styles from './App.module.css';
 
 export class App extends Component {
   state = {
-    contacts: [...contacts],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('myContacts'));
+    console.log('contacts', contacts); //----------------------------------------------------
+    if (contacts?.length) {
+      this.setState({ contacts });
+      console.log('this.state', this.state);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    console.log('prevState', prevState.contacts); //--------------------------------------
+    console.log('State', contacts); //-----------------------------------------
+    if (prevState.contacts.length !== contacts.length) {
+      localStorage.setItem('myContacts', JSON.stringify(contacts));
+      console.log('000');
+    }
+  }
 
   handleFilter = ({ target }) => {
     this.setState({ filter: target.value });
