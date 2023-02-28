@@ -16,20 +16,15 @@ export class App extends Component {
 
   componentDidMount() {
     const contacts = JSON.parse(localStorage.getItem('myContacts'));
-    console.log('contacts', contacts); //----------------------------------------------------
     if (contacts?.length) {
       this.setState({ contacts });
-      console.log('this.state', this.state);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { contacts } = this.state;
-    console.log('prevState', prevState.contacts); //--------------------------------------
-    console.log('State', contacts); //-----------------------------------------
     if (prevState.contacts.length !== contacts.length) {
       localStorage.setItem('myContacts', JSON.stringify(contacts));
-      console.log('000');
     }
   }
 
@@ -62,14 +57,14 @@ export class App extends Component {
     });
   };
 
-  isDuplicate(name) {
+  isDuplicate = name => {
     const normalizeName = name.toLowerCase();
     const { contacts } = this.state;
     const contact = contacts.find(({ name }) => {
       return name.toLowerCase() === normalizeName;
     });
     return Boolean(contact);
-  }
+  };
 
   getFilterContacts() {
     const { filter, contacts } = this.state;
@@ -84,14 +79,14 @@ export class App extends Component {
   }
 
   render() {
-    const { handleFilter, addContact, removeContact } = this;
+    const { handleFilter, addContact, removeContact, isDuplicate } = this;
     const contacts = this.getFilterContacts();
 
     return (
       <div className={styles.wrapper}>
         <div className={styles.block}>
           <h1 className={styles.title}>Phonebook</h1>
-          <PhoneBookForm onSubmit={addContact} />
+          <PhoneBookForm onSubmit={addContact} isDuplicate={isDuplicate} />
         </div>
 
         <div className={styles.block}>

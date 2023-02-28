@@ -12,9 +12,12 @@ class PhoneBookForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { onSubmit } = this.props;
+    const { name } = this.state;
+    const { onSubmit, isDuplicate } = this.props;
     onSubmit({ ...this.state });
-    this.reset();
+    if (!isDuplicate(name)) {
+      this.reset();
+    }
   };
 
   reset = () => {
