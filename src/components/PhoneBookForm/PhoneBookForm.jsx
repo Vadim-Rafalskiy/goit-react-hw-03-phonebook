@@ -75,4 +75,5 @@ export default PhoneBookForm;
 
 PhoneBookForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  isDuplicate: PropTypes.func.isRequired,
 };
